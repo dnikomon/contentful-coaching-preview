@@ -27,7 +27,7 @@ const CoachingList: React.FC<PageProps<DataProps>> = ({ data, path }) => (
       flex: "0 1 auto",
       flexFlow: "row wrap",
       backgroundColor: "rgb(255, 255, 255)",
-      borderStyle: "solid;",
+      borderStyle: "solid",
       borderColor: "rgb(227, 236, 238)",
       borderImage: "initial",
       borderWidth: "1px 0px 0px 1px",
@@ -37,7 +37,7 @@ const CoachingList: React.FC<PageProps<DataProps>> = ({ data, path }) => (
 
     {data.allContentfulPlanDefinition.edges.map(({ node: { description: { description }, title, id } }, index ) => (
         // index === 0 || index % 3 === 0 ?
-        <div className="coaching-item-container" style={{
+        <div key={`coaching-item-containe-${index}`} className="coaching-item-container" style={{
           borderStyle: "solid",
           borderColor: "rgb(227, 236, 238)",
           borderImage: "initial",
@@ -47,7 +47,7 @@ const CoachingList: React.FC<PageProps<DataProps>> = ({ data, path }) => (
           flexBasis: "0px",
           maxWidth: "100%"
         }}>
-          <CoachingCard description={description} title={title} id={id} />
+          <CoachingCard key={index} description={description} title={title} id={id} />
         </div>
     ))}
     </div>
@@ -94,7 +94,7 @@ const CoachingCard: React.FC<Props> = ({ id, title, description }) => (
             margin: "1rem 1rem 0px 0px",
             boxSizing: "border-box"
           }}>
-            <a aria-label="Lue lisää Liikuntaohjelma terveysliikkujille" href="/palvelut/valmennukset/askel1">
+            <Link to={`?id=${id}`} aria-label="Lue lisää Liikuntaohjelma terveysliikkujille">
               <span style={{
                 fontFamily: "Santral",
                 display: "inline-block",
@@ -127,7 +127,7 @@ const CoachingCard: React.FC<Props> = ({ id, title, description }) => (
                   color: "rgb(0, 102, 161)"
                 }}>Lue lisää</span>
                 </span>
-            </a>
+            </Link>
           </div>
         </div>
       </div>
@@ -136,8 +136,8 @@ const CoachingCard: React.FC<Props> = ({ id, title, description }) => (
 )
 
 export const query = graphql`
-query myQUery {
-    allContentfulPlanDefinition(filter: {node_locale: {eq:"fi-FI"}}) {
+query ContentFulPlanDefinitions($locale: String) {
+    allContentfulPlanDefinition(filter: {node_locale: {eq: $locale}}) {
       edges {
         node {
           id,

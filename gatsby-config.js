@@ -34,6 +34,19 @@ module.exports = {
         accessToken: process.env.GATSBY_ACCESS_TOKEN,
       },
     },
+    {
+      resolve: `gatsby-plugin-intl`,
+      options: {
+          // language JSON resource path
+          path: `${__dirname}/src/intl`,
+          // supported language
+          languages: [`fi-FI`, `sv`,'en-GB'],
+          // language file path
+          defaultLanguage: `fi-FI`,
+          // option to redirect to `/en` when connecting `/`
+          redirect: true,
+      },
+  },
     // this (optional) plugin enables Progressive Web App + Offline functionality
     // To learn more, visit: https://gatsby.dev/offline
     // `gatsby-plugin-offline`,
